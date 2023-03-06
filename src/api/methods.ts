@@ -1,6 +1,6 @@
 import qs from "qs";
 import { getDateRange, request } from "../utils";
-import { Coords } from "./types";
+import { Location } from "./types";
 
 const API_PREFIX = "https://api.open-meteo.com/v1/";
 const DEFAULT_FORECAST_PARAMS = {
@@ -20,18 +20,16 @@ const DEFAULT_FORECAST_PARAMS = {
   ],
   current_weather: true,
   windspeed_unit: "ms",
+  timeformat: "unixtime",
 } as const;
 
-export const getWeatherForecastData = async (params: {
-  coords: Coords;
-  timezone: string;
-}) => {
+export const getWeatherForecastData = async (location: Location) => {
   const { formatted } = getDateRange();
   const { start_date, end_date } = formatted;
 
   const queryParams = {
     ...DEFAULT_FORECAST_PARAMS,
-    ...params,
+    ...location,
     start_date,
     end_date,
   };

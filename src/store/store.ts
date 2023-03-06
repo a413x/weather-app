@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import weatherDataReducer from "./weatherDataSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    weather: weatherDataReducer,
+  },
 });
 
 export type DispatchType = typeof store.dispatch;
