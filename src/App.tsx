@@ -1,21 +1,29 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAppDispatch } from "./store/hooks";
 import { fetchWeatherData } from "./store/weatherDataSlice";
+import LocationSelect from "./components/location-select";
+import { Location } from "./api/types";
+import "./assets/fontello/css/fontello.css";
+import styled from "styled-components";
+
+const AppContainer = styled.div`
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.88);
+`;
 
 const App = () => {
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(
-      fetchWeatherData({
-        latitude: 51.51,
-        longitude: -0.13,
-        timezone: "Europe/London",
-      })
-    );
-  }, []);
+  const onLocationChange = (location: Location) => {
+    dispatch(fetchWeatherData(location));
+  };
 
-  return <div className="weather-app"></div>;
+  return (
+    <AppContainer>
+      <LocationSelect onLocationChange={onLocationChange} />
+    </AppContainer>
+  );
 };
 
 export default App;
