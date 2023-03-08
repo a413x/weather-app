@@ -45,3 +45,9 @@ export const getWeatherForecastData = async (location: Location) => {
 
   return await request(url);
 };
+
+export const getLocations = async (search: string) => {
+  return await request(
+    `https://geocoding-api.open-meteo.com/v1/search?name=${search}`
+  );
+};

@@ -40,3 +40,17 @@ export interface WeatherDataResponse {
   hourly: Hourly;
   daily: Daily;
 }
+
+export interface LocationResponseObject extends Location {
+  id: number;
+  name: string;
+  country: string;
+  admin1?: string;
+  admin2?: string;
+  admin3?: string;
+  admin4?: string;
+}
+
+export interface LocationsResponse {
+  results: LocationResponseObject[];
+}
