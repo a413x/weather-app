@@ -3,20 +3,12 @@ import { Input, DropdownList, DropdownListItem } from "../common";
 import LocationSelectIcons from "./icons";
 import { getLocationName, loadLocationOptions } from "./methods";
 import { Location, LocationResponseObject } from "../../api/types";
+import { DEFAULT_LOCATION } from "./constants";
 import styled from "styled-components";
 
 interface LocationSelectProps {
   onLocationChange: (location: Location) => void;
 }
-
-const DEFAULT_LOCATION = {
-  id: 0,
-  name: "",
-  country: "",
-  latitude: 0,
-  longitude: 0,
-  timezone: "",
-};
 
 const LocationSelectContainer = styled.div`
   width: 100%;

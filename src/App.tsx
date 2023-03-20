@@ -1,6 +1,7 @@
 import React from "react";
 import { useAppDispatch } from "./store/hooks";
 import { fetchWeatherData } from "./store/weatherDataSlice";
+import { setCurrentLocation } from "./store/appSlice";
 import LocationSelect from "./components/location-select";
 import { Location } from "./api/types";
 import "./assets/fontello/css/fontello.css";
@@ -17,6 +18,7 @@ const App = () => {
 
   const onLocationChange = (location: Location) => {
     dispatch(fetchWeatherData(location));
+    dispatch(setCurrentLocation(location));
   };
 
   return (
