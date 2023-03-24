@@ -1,5 +1,5 @@
 import qs from "qs";
-import { getDateRange, request } from "../utils";
+import { request } from "../utils";
 import { Location } from "./types";
 
 const API_PREFIX = "https://api.open-meteo.com/v1/";
@@ -20,18 +20,13 @@ const DEFAULT_FORECAST_PARAMS = {
   ],
   current_weather: true,
   windspeed_unit: "ms",
-  timeformat: "unixtime",
 } as const;
 
 export const getWeatherForecastData = async (location: Location) => {
-  const { formatted } = getDateRange();
-  const { start_date, end_date } = formatted;
-
   const queryParams = {
     ...DEFAULT_FORECAST_PARAMS,
     ...location,
-    start_date,
-    end_date,
+    past_days: 1,
   };
 
   const url =

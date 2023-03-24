@@ -14,11 +14,11 @@ export interface CurrentWeather {
   windspeed: number;
   winddirection: number;
   weathercode: number;
-  time: number;
+  time: string;
 }
 
 export interface Hourly {
-  time: number[];
+  time: string[];
   temperature_2m: number[];
   relativehumidity_2m: number[];
   apparent_temperature: number[];
@@ -27,7 +27,7 @@ export interface Hourly {
 }
 
 export interface Daily {
-  time: number[];
+  time: string[];
   weathercode: number[];
   temperature_2m_max: number[];
   temperature_2m_min: number[];
@@ -35,10 +35,30 @@ export interface Daily {
   sunset: string[];
 }
 
+export interface HourlyUnits {
+  apparent_temperature: string;
+  relativehumidity_2m: string;
+  surface_pressure: string;
+  temperature_2m: string;
+  time: string;
+  weathercode: string;
+}
+
+export interface DailyUnits {
+  sunrise: string;
+  sunset: string;
+  temperature_2m_max: string;
+  temperature_2m_min: string;
+  time: string;
+  weathercode: string;
+}
+
 export interface WeatherDataResponse {
   current_weather: CurrentWeather;
   hourly: Hourly;
   daily: Daily;
+  hourly_units: HourlyUnits;
+  daily_units: DailyUnits;
 }
 
 export interface LocationResponseObject extends Location {

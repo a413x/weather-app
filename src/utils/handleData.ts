@@ -1,5 +1,11 @@
 import moment from "moment";
-import { Daily, Hourly, WeatherDataResponse } from "../api/types";
+import {
+  Daily,
+  DailyUnits,
+  Hourly,
+  HourlyUnits,
+  WeatherDataResponse,
+} from "../api/types";
 import {
   HourlyData,
   DailyData,
@@ -7,40 +13,67 @@ import {
   Normalized,
 } from "../store/weatherDataSlice";
 
-const normalize = (data: Hourly | Daily) => {
-  const result = {} as Normalized<HourlyData | DailyData>;
+interface NormalizedResponse<T> {
+  data: Normalized<T>;
+  order: number[];
+}
+
+const normalize = (data: Hourly | Daily, units: HourlyUnits | DailyUnits) => {
+  const resultData = {} as Normalized<HourlyData | DailyData>;
+  const resultOrder: number[] = [];
+
   data.time.forEach((time, index) => {
-    result[time] = (Object.keys(data) as Array<keyof typeof data>).reduce(
-      (values, key) => {
-        values[key] = data[key][index];
-        return values;
-      },
-      {} as HourlyData | DailyData
-    );
+    const timeValue = moment(time).valueOf();
+    resultOrder.push(timeValue);
+    resultData[timeValue] = (
+      Object.keys(data) as Array<keyof typeof data>
+    ).reduce((values, key) => {
+      let value = data[key][index];
+      if (units[key] === "iso8601") {
+        value = moment(value).valueOf();
+      }
+      values[key] = value as number;
+      return values;
+    }, {} as HourlyData | DailyData);
   });
-  return result;
+  return { data: resultData, order: resultOrder };
 };
 
 export const handleWeatherData = (
   apiResponse: WeatherDataResponse
 ): WeatherData => {
-  const { current_weather, hourly, daily } = apiResponse;
-  const currentTime = current_weather.time;
-  const yesterdayTime = moment.unix(currentTime).subtract(1, "days").unix();
+  const { current_weather, hourly, daily, hourly_units, daily_units } =
+    apiResponse;
 
-  const hourlyWeather = normalize(hourly) as Normalized<HourlyData>;
+  const currentTimeObject = moment(current_weather.time);
+  const currentTime = currentTimeObject.valueOf();
+  const yesterdayTime = currentTimeObject.subtract(1, "days").valueOf();
+
+  const { data: hourlyWeather, order: hourlyOrder } = normalize(
+    hourly,
+    hourly_units
+  ) as NormalizedResponse<HourlyData>;
+  const { data: dailyWeather, order: dailyOrder } = normalize(
+    daily,
+    daily_units
+  ) as NormalizedResponse<DailyData>;
+
+  const dailyToday = dailyWeather[dailyOrder[1]];
+
   const currentWeather = {
     ...current_weather,
     ...hourlyWeather[currentTime],
+    time: currentTime,
     yesterday_temperature: hourlyWeather[yesterdayTime]?.temperature_2m || 0,
+    sunrise: dailyToday?.sunrise,
+    sunset: dailyToday?.sunset,
   };
-  const dailyWeather = normalize(daily) as Normalized<DailyData>;
 
   return {
     currentWeather,
     dailyWeather,
     hourlyWeather,
-    hourlyOrder: hourly.time,
-    dailyOrder: daily.time,
+    hourlyOrder,
+    dailyOrder,
   };
 };

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ApiError, CurrentWeather, Location } from "../api/types";
+import { ApiError, Location } from "../api/types";
 import { getWeatherForecastData } from "../api";
 import { handleWeatherData } from "../utils/handleData";
 
@@ -19,11 +19,18 @@ export interface DailyData {
   weathercode: number;
   temperature_2m_max: number;
   temperature_2m_min: number;
-  sunrise: string;
-  sunset: string;
+  sunrise: number;
+  sunset: number;
 }
-interface CurrentWeatherState extends CurrentWeather, HourlyData {
+export interface CurrentWeatherState extends HourlyData {
+  temperature: number;
+  windspeed: number;
+  winddirection: number;
+  weathercode: number;
+  time: number;
   yesterday_temperature: number;
+  sunrise: number;
+  sunset: number;
 }
 export interface WeatherData {
   currentWeather: CurrentWeatherState;
@@ -51,6 +58,8 @@ const initialState: WeatherDataState = {
       apparent_temperature: 0,
       surface_pressure: 0,
       yesterday_temperature: 0,
+      sunrise: 0,
+      sunset: 0,
     },
     hourlyWeather: {},
     hourlyOrder: [],
