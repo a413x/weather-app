@@ -64,7 +64,7 @@ export interface WeatherDataResponse {
 export interface LocationResponseObject extends Location {
   id: number;
   name: string;
-  country: string;
+  country?: string;
   admin1?: string;
   admin2?: string;
   admin3?: string;

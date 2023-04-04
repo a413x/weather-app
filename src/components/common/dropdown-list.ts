@@ -1,17 +1,17 @@
 import styled from "styled-components";
 
-const DropdownListItem = styled.div`
+const DropdownListItem = styled.div<{ active?: boolean }>`
   padding: 5px 12px;
   border-radius: 4px;
   cursor: pointer;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-  }
+  ${(props) => (props.active ? "background-color: rgba(0, 0, 0, 0.04)" : "")}}
 `;
 
 const DropdownList = styled.div`
   position: absolute;
   top: 100%;
+  left: 0;
+  right: 0;
   padding: 4px;
   background: white;
   border-radius: 8px;

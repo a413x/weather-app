@@ -17,11 +17,14 @@ export const loadLocationOptions = async (value: string) => {
 
 export const getLocationName = (option: LocationResponseObject) => {
   const { name, country, admin1, admin2, admin3, admin4 } = option;
-  let result = `${name} (${country}`;
-  if (admin1) result += `, ${admin1}`;
-  if (admin2) result += `, ${admin2}`;
-  if (admin3) result += `, ${admin3}`;
-  if (admin4) result += `, ${admin4}`;
-  result += ")";
+  let result = name;
+  if (country) {
+    result += ` (${country}`;
+    if (admin1) result += `, ${admin1}`;
+    if (admin2) result += `, ${admin2}`;
+    if (admin3) result += `, ${admin3}`;
+    if (admin4) result += `, ${admin4}`;
+    result += ")";
+  }
   return result;
 };

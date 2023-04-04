@@ -22,24 +22,42 @@ const LocationInput = styled(Input)`
 
 const LocationSelect: FC<LocationSelectProps> = ({ onLocationChange }) => {
   const [location, setLocation] = useState(DEFAULT_LOCATION);
+  const [activeOptionIndex, setActiveOptionIndex] = useState<number>(0);
   const [options, setOptions] = useState<LocationResponseObject[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const clickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       if (!target) return;
-      if (!containerRef || !containerRef.current) return;
-      const container = containerRef.current as Node;
-      if (!container.contains(target)) {
+      if (!containerRef?.current?.contains(target)) {
         setIsOpen(false);
       }
     };
+    const keyboardSelect = (event: KeyboardEvent) => {
+      const { key } = event;
+      const increment = key === "ArrowUp" ? -1 : key === "ArrowDown" ? 1 : 0;
+      if (increment !== 0) {
+        event.preventDefault();
+        let newIndex = activeOptionIndex + increment;
+        if (newIndex < 0) newIndex = options.length - 1;
+        if (newIndex > options.length - 1) newIndex = 0;
+        setActiveOptionIndex(newIndex);
+      }
+      if (key === "Enter") {
+        const option = options[activeOptionIndex];
+        if (option) onOptionSelect(option);
+        inputRef?.current?.blur();
+      }
+    };
     document.addEventListener("mousedown", clickOutside);
+    document.addEventListener("keydown", keyboardSelect);
     return () => {
       document.removeEventListener("mousedown", clickOutside);
+      document.removeEventListener("keydown", keyboardSelect);
     };
   });
 
@@ -55,7 +73,7 @@ const LocationSelect: FC<LocationSelectProps> = ({ onLocationChange }) => {
     setLocation({ ...location, name: value });
   };
   const onInputFocus = () => setIsOpen(true);
-  const onOptionClick = (option: LocationResponseObject) => {
+  const onOptionSelect = (option: LocationResponseObject) => {
     setLocation(option);
     onLocationChange(option);
     setIsOpen(false);
@@ -67,16 +85,22 @@ const LocationSelect: FC<LocationSelectProps> = ({ onLocationChange }) => {
   return (
     <LocationSelectContainer ref={containerRef}>
       <LocationInput
+        ref={inputRef}
         value={location.name}
         onChange={onInput}
         onFocus={onInputFocus}
       />
       {isOpen && options.length > 0 && (
         <DropdownList>
-          {options.map((option) => {
+          {options.map((option, index) => {
             const { id } = option;
             return (
-              <DropdownListItem key={id} onClick={() => onOptionClick(option)}>
+              <DropdownListItem
+                key={id}
+                active={activeOptionIndex === index}
+                onMouseEnter={() => setActiveOptionIndex(index)}
+                onClick={() => onOptionSelect(option)}
+              >
                 {getLocationName(option)}
               </DropdownListItem>
             );
