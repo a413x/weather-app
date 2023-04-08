@@ -5,6 +5,8 @@ import { setCurrentLocation } from "./store/appSlice";
 import LocationSelect from "./components/location-select";
 import { Location } from "./api/types";
 import "./assets/fontello/css/fontello.css";
+import "swiper/css";
+import "swiper/css/navigation";
 import styled from "styled-components";
 
 const AppContainer = styled.div`
