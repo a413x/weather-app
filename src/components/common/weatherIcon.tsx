@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 import { Icon, CombinedIcon } from "./icons";
 import { ICONS_COLORS } from "./icons/constants";
+import { Theme } from "../../types";
 import styled from "styled-components";
 
-interface WeatherIconProps {
+interface WeatherIconProps extends Theme {
   weathercode: number;
   fontSize: number;
-  theme?: "day" | "night";
 }
 
 const IconContainer = styled.div<{ size: number }>`
