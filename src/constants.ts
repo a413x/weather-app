@@ -8,12 +8,12 @@ const WEATHER_CODES_DESCRIPTIONS: { [code: number]: string | undefined } = {
   51: "Light drizzle",
   53: "Drizzle",
   55: "Drizzle",
-  56: "Freezing drizzle, light intensity",
+  56: "Freezing drizzle",
   57: "Freezing drizzle",
   61: "Slight rain",
   63: "Rain",
   65: "Heavy rain",
-  66: "Freezing Rain, light intensity",
+  66: "Freezing Rain",
   67: "Freezing Rain",
   71: "Slight snowfall",
   73: "Snowfall",
@@ -25,8 +25,8 @@ const WEATHER_CODES_DESCRIPTIONS: { [code: number]: string | undefined } = {
   85: "Snow shower",
   86: "Heavy snow shower",
   95: "Thunderstorm",
-  96: "Thunderstorm with slight hail",
-  99: "Thunderstorm with heavy hail",
+  96: "Thunderstorm with hail",
+  99: "Thunderstorm with hail",
 };
 
 export { WEATHER_CODES_DESCRIPTIONS };
