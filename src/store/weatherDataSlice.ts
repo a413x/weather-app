@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ApiError, Location } from "../api/types";
 import { getWeatherForecastData } from "../api";
+import { StateType } from "./store";
 import { handleWeatherData } from "../utils/handleData";
 
 export interface Normalized<T> {
@@ -51,7 +52,7 @@ const initialState: WeatherDataState = {
       temperature: 0,
       windspeed: 0,
       winddirection: 0,
-      weathercode: 0,
+      weathercode: -1,
       time: 0,
       temperature_2m: 0,
       relativehumidity_2m: 0,
@@ -99,5 +100,7 @@ const weatherDataSlice = createSlice({
     });
   },
 });
+
+export const selectWeatherData = (state: StateType) => state.weather.data;
 
 export default weatherDataSlice.reducer;

@@ -3,6 +3,7 @@ import { useAppDispatch } from "./store/hooks";
 import { fetchWeatherData } from "./store/weatherDataSlice";
 import { setCurrentLocation } from "./store/appSlice";
 import LocationSelect from "./components/location-select";
+import CurrentWeather from "./components/current-weather";
 import { Location } from "./api/types";
 import "./assets/fontello/css/fontello.css";
 import "swiper/css";
@@ -27,6 +28,7 @@ const App = () => {
   return (
     <AppContainer>
       <LocationSelect onLocationChange={onLocationChange} />
+      <CurrentWeather />
     </AppContainer>
   );
 };
