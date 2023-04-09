@@ -1,4 +1,4 @@
 import { request } from "./network";
-import { getDateRange } from "./time";
+import { handleWeatherData } from "./handleData";
 
-export { request, getDateRange };
+export { request, handleWeatherData };

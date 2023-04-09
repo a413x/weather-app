@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ApiError, Location } from "../api/types";
 import { getWeatherForecastData } from "../api";
 import { StateType } from "./store";
-import { handleWeatherData } from "../utils/handleData";
+import { handleWeatherData } from "../utils";
 
 export interface Normalized<T> {
   [time: number]: T;
