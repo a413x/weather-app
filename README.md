@@ -1,6 +1,8 @@
 ### Description
 
-Weather forecast application.
+Weather forecast application. [Live demo](https://a413x.github.io/weather-app/).
+
+<img src="preview/weather-app-preview.PNG" width="400" alt="">
 
 Made with React, Redux, Typescript.
 
