@@ -1,13 +1,14 @@
 import React, { FC } from "react";
 import moment from "moment-timezone";
 import { Card } from "../common";
-import { Title, Content, Hourly, Additional } from "./components";
+import { Title, Content, Hourly, Additional, ScaleSwitch } from "./components";
 import { useAppSelector } from "../../store/hooks";
 import { selectWeatherData } from "../../store/weatherDataSlice";
-import { selectCurrentLocation } from "../../store/appSlice";
+import { selectAppState } from "../../store/appSlice";
 import styled from "styled-components";
 
 const CurrentWeatherContainer = styled(Card)`
+  position: relative;
   margin-top: 15px;
   color: white;
   background: ${(props) => (props.theme === "day" ? "#7575ff" : "#233665")};
@@ -15,7 +16,7 @@ const CurrentWeatherContainer = styled(Card)`
 
 const CurrentWeather: FC = () => {
   const weatherData = useAppSelector(selectWeatherData);
-  const location = useAppSelector(selectCurrentLocation);
+  const { currentLocation: location } = useAppSelector(selectAppState);
 
   const { currentWeather, hourlyWeather, hourlyOrder, dailyWeather } =
     weatherData;
@@ -43,6 +44,7 @@ const CurrentWeather: FC = () => {
         hourlyOrder={hourlyOrder}
         dailyWeather={dailyWeather}
       />
+      <ScaleSwitch />
     </CurrentWeatherContainer>
   );
 };

@@ -31,7 +31,12 @@ const LocationSelectIcons = (props: LocationSelectIconsProps) => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        onGetCurrentLocation({ latitude, longitude, timezone: "auto" });
+        onGetCurrentLocation({
+          latitude,
+          longitude,
+          timezone: "auto",
+          name: "Current location",
+        });
       },
       (error) => {
         alert("Error getting geolocation: " + error.message);
