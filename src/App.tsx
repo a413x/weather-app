@@ -22,8 +22,8 @@ const App = () => {
   const dispatch = useAppDispatch();
 
   const onLocationChange = (location: Location) => {
-    dispatch(fetchWeatherData(location));
     dispatch(setCurrentLocation(location));
+    dispatch(fetchWeatherData());
   };
 
   return (

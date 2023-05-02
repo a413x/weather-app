@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ApiError, Location } from "../api/types";
+import { ApiError } from "../api/types";
 import { getWeatherForecastData } from "../api";
 import { StateType } from "./store";
 import { handleWeatherData } from "../utils";
+import { selectAppState } from "./appSlice";
 
 export interface Normalized<T> {
   [time: number]: T;
@@ -76,8 +77,11 @@ const initialState: WeatherDataState = {
 
 export const fetchWeatherData = createAsyncThunk(
   "weatherData/fetchWeatherData",
-  async (location: Location) => {
-    return await getWeatherForecastData(location);
+  async (_, { getState }) => {
+    const state = getState() as StateType;
+    const { currentLocation, temperatureUnit } = selectAppState(state);
+    if (!currentLocation.name) return;
+    return await getWeatherForecastData(currentLocation, temperatureUnit);
   }
 );
 

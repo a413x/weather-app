@@ -5,6 +5,7 @@ import WeatherIcon from "./weatherIcon";
 import WindDirection from "./wind-direction";
 import Temperature from "./temperature";
 import CustomSwiper from "./custom-swiper";
+import Switch from "./switch";
 
 export {
   Card,
@@ -15,4 +16,5 @@ export {
   WindDirection,
   Temperature,
   CustomSwiper,
+  Switch,
 };

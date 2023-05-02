@@ -21,7 +21,7 @@ const Title: FC<TitleProps> = ({
 }) => {
   return (
     <div>
-      <LocationName>{location.name || "Current location"}</LocationName>
+      <LocationName>{location.name || "N/A"}</LocationName>
       <div>
         {currentTimeString} now. Yesterday at this time{" "}
         <Temperature temperature={yesterday_temperature} />

@@ -1,6 +1,7 @@
 import qs from "qs";
 import { request } from "../utils";
 import { Location } from "./types";
+import { TemperatureUnit } from "../types";
 
 const API_PREFIX = "https://api.open-meteo.com/v1/";
 const DEFAULT_FORECAST_PARAMS = {
@@ -22,10 +23,14 @@ const DEFAULT_FORECAST_PARAMS = {
   windspeed_unit: "ms",
 } as const;
 
-export const getWeatherForecastData = async (location: Location) => {
+export const getWeatherForecastData = async (
+  location: Location,
+  temperature_unit: TemperatureUnit
+) => {
   const queryParams = {
     ...DEFAULT_FORECAST_PARAMS,
     ...location,
+    temperature_unit,
     past_days: 1,
   };
 
